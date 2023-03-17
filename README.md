@@ -1,1 +1,1 @@
-# ccp-vs
+# ghcr-paper-vs-r
