@@ -1,33 +1,88 @@
-FROM rocker/verse:latest
+FROM rocker/rstudio:latest
 LABEL maintainer="Yoshihiko Kunisato <kunisato@psy.senshu-u.ac.jp>"
 
-# Install ipaexfont　notofont
+# Install ipaexfont
 RUN apt-get update
-RUN apt-get install -y fonts-ipaexfont fonts-noto-cjk fonts-noto-cjk-extra
-
+RUN apt-get install -y fonts-ipaexfont
+# Insatall notofont
+RUN apt-get install -y fonts-noto-cjk fonts-noto-cjk-extra
 # install libjpeg & V8 for "psycho"
 RUN apt-get install -y libjpeg-dev libv8-dev
+# install ffmpeg
+RUN apt-get -y install ffmpeg
+# install ImageMagick++ library for magick
+RUN apt-get install -y libmagick++-dev
+# install clang for Stan
+RUN apt-get install -y clang make
+# Install JAGS and other linux packages
+RUN apt-get update && apt-get install -y \
+    jags \
+    libgsl0-dev \
+    tcl8.6-dev \
+    tk8.6-dev\
+    openmpi-bin\
+    libglpk-dev \
+    libcgal-dev \
+    libglu1-mesa-dev \
+    libsecret-1-dev \
+    libsodium-dev \
+    libssl-dev \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
+
+# install sqlite3
+RUN apt-get update
+RUN apt-get install -y sqlite3
+
+# install Mecab and Dictionary
+RUN wget -O mecab-0.996.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7cENtOXlicTFaRUE" ;\
+    tar -xzf mecab-0.996.tar.gz ;\
+    cd mecab-0.996; ./configure --enable-utf8-only; make; make install; ldconfig
+
+RUN wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM" ;\
+    tar -xzf mecab-ipadic-2.7.0-20070801.tar.gz ;\
+    cd mecab-ipadic-2.7.0-20070801; ./configure –with-charset=utf-8; make; make install; ldconfig
 
 # install R packages
 COPY install_r.r install_r.r
 RUN ["r", "install_r.r"]
 
 # install python packaegs
-RUN apt-get install -y python3-pip
-RUN pip3 install notebook 
+RUN apt install -y wget \
+    git \
+    python3 \
+    python3-pip \
+    python3-dev
+
+RUN pip3 install notebook \
+    jupyterlab \
+    jupyterlab-git \
+    scipy \
+    seaborn \
+    scikit-learn \
+    sympy \
+    inferactively-pymdp\
+    bokeh \
+    pyhgf \
+    unidic-lite \
+    mecab-python3
 
 # Install Julia
-ARG JULIA_VERSION="1.8.3"
+ARG JULIA_VERSION="1.10.1"
 RUN JULIA_MAJOR=`echo $JULIA_VERSION | sed -E  "s/\.[0-9]+$//g"` && \
-    wget https://julialang-s3.julialang.org/bin/linux/x64/$JULIA_MAJOR/julia-$JULIA_VERSION-linux-x86_64.tar.gz && \
-    tar -xvzf julia-$JULIA_VERSION-linux-x86_64.tar.gz && \
+    # ARM
+    wget https://julialang-s3.julialang.org/bin/linux/aarch64/$JULIA_MAJOR/julia-$JULIA_VERSION-linux-aarch64.tar.gz && \
+    tar -xvzf julia-$JULIA_VERSION-linux-aarch64.tar.gz && \
+    # AMD
+    #wget https://julialang-s3.julialang.org/bin/linux/x64/$JULIA_MAJOR/julia-$JULIA_VERSION-linux-x86_64.tar.gz && \
+    #tar -xvzf julia-$JULIA_VERSION-linux-x86_64.tar.gz && \
     cp -r julia-$JULIA_VERSION /opt/ && \
     ln -s /opt/julia-$JULIA_VERSION/bin/julia /usr/local/bin/julia && \
-    rm -r julia-$JULIA_VERSION-linux-x86_64.tar.gz
-
-RUN chown -hR rstudio:staff /opt/julia-$JULIA_VERSION
+    # ARM
+    rm -r julia-$JULIA_VERSION-linux-aarch64.tar.gz
+    # AMD
+    #rm -r julia-$JULIA_VERSION-linux-x86_64.tar.gz
 
 USER rstudio
 RUN julia -e 'ENV["PYTHON"] = raw"/usr/bin/python3";using Pkg;Pkg.update();Pkg.add(["IJulia","PyCall"]);Pkg.build(["IJulia","PyCall"]);'
-RUN julia -e 'using Pkg;Pkg.add(["DataFrames","PyPlot","Distributions","Statistics","CPUTime","GLM","Optim","Plots","RDatasets","StatsBase","StatsFuns","StatsPlots","Turing","LinearAlgebra","ForneyLab"]);Pkg.precompile()'
 USER root

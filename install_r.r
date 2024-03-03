@@ -1,17 +1,27 @@
-install.packages(c("devtools",
-"remotes",
-"BiocManager"
-), error = TRUE, dependencies = TRUE)
-
-BiocManager::install(c("graph", "RBGL", "Rgraphviz"), update = TRUE, ask = FALSE)
-
 # install R packages from CRAN
 install.packages(c("memisc",
-"coda",
+"tidyverse",
+"rmarkdown",
+"BiocManager",
+"devtools",
+"BiocManager",
+"vroom",
+"gert",
+"tinytex",
+"blogdown",
+"bookdown",
+"distill",
+"rticles",
+"rmdshower",
+"rJava",
+"xaringan",
+"imager",
 "caret",
 "car",
 "e1071",
+"Hmisc",
 "GGally",
+"ggmcmc",
 "ggsci",
 "gridExtra",
 "ggridges",
@@ -30,16 +40,20 @@ install.packages(c("memisc",
 "sigr",
 "stargazer",
 "stringr",
+"tidybayes",
 "viridis",
 "psycho",
 "psych",
 "apaTables",
+"googleComputeEngineR",
+"googleCloudStorageR",
 "future",
 "checkpoint",
 "packrat",
 "VIM",
 "mice",
 "irr",
+"brms",
 "DiagrammeR",
 "magick",
 "roxygen2md",
@@ -101,7 +115,6 @@ install.packages(c("memisc",
 "qlcMatrix",
 "gtrendsR",
 "rjson",
-"renv",
 "keyring",
 "reticulate",
 "JuliaCall",
@@ -109,13 +122,45 @@ install.packages(c("memisc",
 "BGGM",
 "getPass",
 "fields",
-"JuliaConnectoR"
-), error = TRUE, dependencies = TRUE)
+"JuliaConnectoR",
+"gtsummary",
+"esc",
+"ExpertChoice",
+"support.CEs",
+"DoE.base",
+"skpr",
+"gptstudio",
+"catIrt",
+"renv",
+"papaja",
+"ggdmc",
+"GGMnonreg",
+"DT",
+"tm",
+"topicmodels",
+"wordcloud",
+"pals",
+"SnowballC",
+"lda",
+"ldatuning",
+"flextable",
+"LDATS",
+"tidytext",
+"textmineR",
+"text2vec",
+"bayesplot"), error = TRUE, dependencies = TRUE)
+
+BiocManager::install(c("graph", "RBGL", "Rgraphviz"), update = TRUE, ask = FALSE)
+
+# install CMDSTAN_HOME
+remotes::install_github("stan-dev/posterior")
+install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+
+
+# install RMeCab
+install.packages("RMeCab", repos = "https://rmecab.jp/R", type = "source")
 
 # install R packages from GitHub
-remotes::install_github(c("crsh/papaja",
-"MathiasHarrer/dmetar",
-"yihui/xaringan",
+remotes::install_github(c("MathiasHarrer/dmetar",
 "ykunisato/jpaRmd",
-"ykunisato/psyinfr",
-"benmarwick/rrtools"), dependencies = TRUE)
+"ykunisato/psyinfr"), dependencies = TRUE)
