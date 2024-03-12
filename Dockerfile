@@ -45,10 +45,30 @@ RUN wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?expo
     cd mecab-ipadic-2.7.0-20070801; ./configure –with-charset=utf-8; make; make install; ldconfig
 
 # install R packages
-#COPY install_r.r install_r.r
-#RUN ["r", "install_r.r"]
-COPY install_r_test.r install_r_test.r
-RUN ["r", "install_r_test.r"]
+    # インストール済み
+    #'r-base' \
+    #'r-caret' \
+    #'r-crayon' \
+    #'r-devtools' \
+    #'r-e1071' \
+    #'r-forecast' \
+    #'r-hexbin' \
+    #'r-htmltools' \
+    #'r-htmlwidgets' \
+    #'r-irkernel' \
+    #'r-nycflights13' \
+    #'r-randomforest' \
+    #'r-rcurl' \
+    #'r-rmarkdown' \
+    #'r-rodbc' \
+    #'r-rsqlite' \
+    #'r-shiny' \
+    #'r-tidymodels' \
+    #'r-tidyverse' \
+    #'rpy2' \
+    #'unixodbc'
+RUN mamba install --yes \
+    'r-rmarkdown'
 
 
 # install python packaegs
