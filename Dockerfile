@@ -1,4 +1,4 @@
-FROM rocker/rstudio:latest
+FROM jupyter/datascience-notebook:latest
 LABEL maintainer="Yoshihiko Kunisato <kunisato@psy.senshu-u.ac.jp>"
 
 # Install ipaexfont
@@ -65,7 +65,10 @@ RUN pip3 install notebook \
     bokeh \
     pyhgf \
     unidic-lite \
-    mecab-python3\
+    mecab-python3 \
+    pyyaml \
+    nbformat \
+    nbclient \
     pyswarms\
     pyhgf
 
@@ -74,10 +77,11 @@ RUN pip3 install notebook \
 #wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-amd64.tar.gz
 RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.tar.gz
 RUN mkdir ~/opt
+# AMD64
 #tar -C ~/opt -xvzf quarto-1.4.551-linux-amd64.tar.gz
 RUN tar -C ~/opt -xvzf quarto-1.4.551-linux-arm64.tar.gz
 RUN mkdir ~/bin
 RUN ln -s ~/opt/quarto-1.4.551/bin/quarto ~/bin/quarto
 RUN ( echo ""; echo 'export PATH=$PATH:~/bin\n' ; echo "" ) >> ~/.profile
-#RUN source ~/.profile
+RUN source ~/.profile
 
