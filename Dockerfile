@@ -35,41 +35,47 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update
 RUN apt-get install -y sqlite3
 
-# install Mecab and Dictionary
-RUN wget -O mecab-0.996.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7cENtOXlicTFaRUE" ;\
-    tar -xzf mecab-0.996.tar.gz ;\
-    cd mecab-0.996; ./configure --enable-utf8-only; make; make install; ldconfig
-
-RUN wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM" ;\
-    tar -xzf mecab-ipadic-2.7.0-20070801.tar.gz ;\
-    cd mecab-ipadic-2.7.0-20070801; ./configure –with-charset=utf-8; make; make install; ldconfig
-
-# install R packages
-    # インストール済み
-    #'r-base' \
-    #'r-caret' \
-    #'r-crayon' \
-    #'r-devtools' \
-    #'r-e1071' \
-    #'r-forecast' \
-    #'r-hexbin' \
-    #'r-htmltools' \
-    #'r-htmlwidgets' \
-    #'r-irkernel' \
-    #'r-nycflights13' \
-    #'r-randomforest' \
-    #'r-rcurl' \
-    #'r-rmarkdown' \
-    #'r-rodbc' \
-    #'r-rsqlite' \
-    #'r-shiny' \
-    #'r-tidymodels' \
-    #'r-tidyverse' \
-    #'rpy2' \
-    #'unixodbc'
 RUN mamba install --yes \
-    'r-rmarkdown'
+     'r-rmarkdown' \
+     'r-gert' \
+     'r-tinytex'\
+     'r-gridExtra'\
+     'r-kableExtra'\
+     'r-lme4'\
+     'r-ltm'\
+     'r-loo'\
+     'r-psycho'\
+     'r-psych'\
+     'r-rjags'\
+     'r-Rsolnp'\
+     'r-rtdists'\
+     'r-DstarM'\
+     'r-hBayesDM'\
+     'r-gemtc'\
+     'r-netmeta'\
+     'r-ggnetwork'\
+     'r-qgraph'\
+     'r-IsingFit'\
+     'r-IsingSampler'\
+     'r-mlVAR'\
+     'r-graphicalVAR'\
+     'r-bootnet'\
+     'r-mgm'\
+     'r-NetworkComparisonTest'\
+     'r-networktools'\
+     'r-gimme'\
+     'r-NetworkToolbox'\
+     'r-EGAnet'\
+     'r-JuliaCall'\
+     'r-psychonetrics'\
+     'r-BGGM'\
+     'r-JuliaConnectoR'
 
+# install CMDSTAN_HOME
+RUN Rscript -e 'remotes::install_github("stan-dev/posterior")'
+RUN Rscript -e 'install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))'
+# install R packages from GitHub
+RUN Rscript -e 'remotes::install_github(c("MathiasHarrer/dmetar","ykunisato/jpaRmd","ykunisato/psyinfr"), dependencies = TRUE)'
 
 # install python packaegs
 RUN apt install -y wget \
@@ -93,8 +99,7 @@ RUN pip3 install notebook \
     pyyaml \
     nbformat \
     nbclient \
-    pyswarms\
-    pyhgf
+    pyswarms
 
 # install Quarto
 ## AMD64
