@@ -79,5 +79,5 @@ RUN tar -C ~/opt -xvzf quarto-1.4.551-linux-arm64.tar.gz
 RUN mkdir ~/bin
 RUN ln -s ~/opt/quarto-1.4.551/bin/quarto ~/bin/quarto
 RUN ( echo ""; echo 'export PATH=$PATH:~/bin\n' ; echo "" ) >> ~/.profile
-RUN source ~/.profile
+#RUN source ~/.profile
 
