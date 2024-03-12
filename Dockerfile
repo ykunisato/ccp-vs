@@ -65,24 +65,19 @@ RUN pip3 install notebook \
     bokeh \
     pyhgf \
     unidic-lite \
-    mecab-python3
+    mecab-python3\
+    pyswarms\
+    pyhgf
 
-# Install Julia
-ARG JULIA_VERSION="1.10.1"
-RUN JULIA_MAJOR=`echo $JULIA_VERSION | sed -E  "s/\.[0-9]+$//g"` && \
-    # ARM
-    wget https://julialang-s3.julialang.org/bin/linux/aarch64/$JULIA_MAJOR/julia-$JULIA_VERSION-linux-aarch64.tar.gz && \
-    tar -xvzf julia-$JULIA_VERSION-linux-aarch64.tar.gz && \
-    # AMD
-    #wget https://julialang-s3.julialang.org/bin/linux/x64/$JULIA_MAJOR/julia-$JULIA_VERSION-linux-x86_64.tar.gz && \
-    #tar -xvzf julia-$JULIA_VERSION-linux-x86_64.tar.gz && \
-    cp -r julia-$JULIA_VERSION /opt/ && \
-    ln -s /opt/julia-$JULIA_VERSION/bin/julia /usr/local/bin/julia && \
-    # ARM
-    rm -r julia-$JULIA_VERSION-linux-aarch64.tar.gz
-    # AMD
-    #rm -r julia-$JULIA_VERSION-linux-x86_64.tar.gz
+# install Quarto
+## AMD64
+#wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-amd64.tar.gz
+wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.tar.gz
+mkdir ~/opt
+#tar -C ~/opt -xvzf quarto-1.4.551-linux-amd64.tar.gz
+tar -C ~/opt -xvzf quarto-1.4.551-linux-arm64.tar.gz
+mkdir ~/bin
+ln -s ~/opt/quarto-1.4.551/bin/quarto ~/bin/quarto
+( echo ""; echo 'export PATH=$PATH:~/bin\n' ; echo "" ) >> ~/.profile
+source ~/.profile
 
-USER rstudio
-RUN julia -e 'ENV["PYTHON"] = raw"/usr/bin/python3";using Pkg;Pkg.update();Pkg.add(["IJulia","PyCall"]);Pkg.build(["IJulia","PyCall"]);'
-USER root
