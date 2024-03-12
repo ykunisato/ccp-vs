@@ -40,42 +40,7 @@ RUN mamba install --yes \
      'r-gert' \
      'r-tinytex'\
      'r-gridExtra'\
-     'r-kableExtra'\
-     'r-lme4'\
-     'r-ltm'\
-     'r-loo'\
-     'r-psycho'\
-     'r-psych'\
-     'r-rjags'\
-     'r-Rsolnp'\
-     'r-rtdists'\
-     'r-DstarM'\
-     'r-hBayesDM'\
-     'r-gemtc'\
-     'r-netmeta'\
-     'r-ggnetwork'\
-     'r-qgraph'\
-     'r-IsingFit'\
-     'r-IsingSampler'\
-     'r-mlVAR'\
-     'r-graphicalVAR'\
-     'r-bootnet'\
-     'r-mgm'\
-     'r-NetworkComparisonTest'\
-     'r-networktools'\
-     'r-gimme'\
-     'r-NetworkToolbox'\
-     'r-EGAnet'\
-     'r-JuliaCall'\
-     'r-psychonetrics'\
-     'r-BGGM'\
-     'r-JuliaConnectoR'
-
-# install CMDSTAN_HOME
-RUN Rscript -e 'remotes::install_github("stan-dev/posterior")'
-RUN Rscript -e 'install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))'
-# install R packages from GitHub
-RUN Rscript -e 'remotes::install_github(c("MathiasHarrer/dmetar","ykunisato/jpaRmd","ykunisato/psyinfr"), dependencies = TRUE)'
+     'r-kableExtra'
 
 # install python packaegs
 RUN apt install -y wget \
