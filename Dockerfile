@@ -72,12 +72,12 @@ RUN pip3 install notebook \
 # install Quarto
 ## AMD64
 #wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-amd64.tar.gz
-wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.tar.gz
-mkdir ~/opt
+RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.551/quarto-1.4.551-linux-arm64.tar.gz
+RUN mkdir ~/opt
 #tar -C ~/opt -xvzf quarto-1.4.551-linux-amd64.tar.gz
-tar -C ~/opt -xvzf quarto-1.4.551-linux-arm64.tar.gz
-mkdir ~/bin
-ln -s ~/opt/quarto-1.4.551/bin/quarto ~/bin/quarto
-( echo ""; echo 'export PATH=$PATH:~/bin\n' ; echo "" ) >> ~/.profile
-source ~/.profile
+RUN tar -C ~/opt -xvzf quarto-1.4.551-linux-arm64.tar.gz
+RUN mkdir ~/bin
+RUN ln -s ~/opt/quarto-1.4.551/bin/quarto ~/bin/quarto
+RUN ( echo ""; echo 'export PATH=$PATH:~/bin\n' ; echo "" ) >> ~/.profile
+RUN source ~/.profile
 
