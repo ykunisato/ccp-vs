@@ -44,8 +44,11 @@ RUN wget -O mecab-ipadic-2.7.0-20070801.tar.gz "https://drive.google.com/uc?expo
     cd mecab-ipadic-2.7.0-20070801; ./configure –with-charset=utf-8; make; make install; ldconfig
 
 # install R packages
-COPY install_r.r install_r.r
-RUN ["r", "install_r.r"]
+#COPY install_r.r install_r.r
+#RUN ["r", "install_r.r"]
+COPY install_r_test.r install_r_test.r
+RUN ["r", "install_r_test.r"]
+
 
 # install python packaegs
 RUN apt install -y wget \
