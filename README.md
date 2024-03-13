@@ -16,7 +16,7 @@ Keywords: VSCode, Quarto, Python, Julia, R
 
 
 ```
-docker run -d -p 8000:8000 -v $(pwd):/home/jovyan/work --name ccpvs ykunisato/ccp-vs:latest
+docker run -d -p 8888:8888 -v $(pwd):/home/jovyan/work --name ccpvs ykunisato/ccp-vs:latest
 ```
 
 
