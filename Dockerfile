@@ -3,6 +3,7 @@ LABEL maintainer="Yoshihiko Kunisato <kunisato@psy.senshu-u.ac.jp>"
 
 USER root
 # Install ipaexfont
+RUN apt-get clean
 RUN apt-get update
 RUN apt-get install -y fonts-ipaexfont
 # Insatall notofont
